@@ -1,0 +1,9 @@
+{% load crispy_forms_tags %}
+
+<div class="row">
+    <form class="form-horizontal" action="{% url 'register' %}" method="post">
+        {% crispy form %}
+        <input type="submit" class="btn btn-submit col-md-offset-2">
+    </form>
+</div>
+

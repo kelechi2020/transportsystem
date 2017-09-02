@@ -1,0 +1,39 @@
+
+<div class="modal-dialog modal-lg">
+
+        <div class="modal_body_left modal_body_left1">
+                <div class="modal-body">
+                    <h3>Register to your account</h3>
+                    <div class="form-group register">
+                        <div class="modal-content">
+                            <form class="form" role="form" id="item_update_form" action="{% url 'register' %}" method="post">
+                                {% csrf_token %}
+
+
+
+                                    {{ form.as_table }}
+
+                                    <div class="sign-up">
+                                         <input type="submit" class="btn btn-primary" value="Save" style="margin-bottom: 5px;" />
+                                    </div>
+                            </form>
+                                  <script>
+    jQuery('.modal-content .calendar ').datepicker({ dateFormat: "yy-mm-dd" });
+
+                var form_options = {
+                    target: '#popup',
+                    success: function() {  }
+                }
+                $('#item_update_form').ajaxForm(form_options);
+        </script>
+                        </div>
+                        </div>
+
+                        </div>
+                    </div>
+            </div>
+
+
+
+
+
