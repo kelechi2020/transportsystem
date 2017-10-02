@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+<div class="row">
+    <form method="post" action="{% url 'book' %}">
+        {% csrf_token %}
+    <div class="form-horizontal">
+        <div class="form-check">
+            <label for="route" class="form form-group">Your Route</label>
+            <input type="text" id="route" name="routename" class="form-control" readonly value="{{ name }}">
+            <input type="hidden" id="route" name="route" class="form-control" readonly value="{{ route }}">
+        </div>
+        <div class="form-check">
+            <label for="selectseat" >Pick A Seat</label>
+            <select id="selectseat" name="seat" class="form-control" >
+                {% for seat, description in select_options %}
+                <option value="{{ seat }}">{{ description }} {{ seat }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group mt-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+    </form>
+</div>
+{% endblock %}

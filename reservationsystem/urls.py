@@ -10,6 +10,6 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^modal/', include('reservations.urls')),
-    url(r'^index$', 'reservations.views.page', name='home'),
+    url(r'^$', 'reservations.views.page', name='home'),
 
 ]

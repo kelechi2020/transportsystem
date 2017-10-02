@@ -6,7 +6,8 @@ from utils.models import CreationModificationDateMixin
 
 TYPE_CHOICES = (
         ('o+', "O+"),
-        ('A+', "A+")
+        ('A+', "A+"),
+        ('abia state', 1 )
     )
 
 def upload_to(instance, filename):
@@ -23,12 +24,28 @@ class Customer(models.Model):
     address = models.CharField(max_length=150, verbose_name="Address", blank=True)
     blood_group = models.CharField(max_length=50, choices=TYPE_CHOICES)
 
+    def __str__(self):
+        return self.name
+
+
+class Seat(models.Model):
+    seat_number = models.IntegerField(verbose_name="SEAT NUMBER")
+    car_type = models.CharField(verbose_name="CAR TYPE", max_length=200, default=None, blank=True)
+    seat_description = models.CharField(verbose_name="SEAT DESCRIPTION", max_length=50)
+
+    def __str__(self):
+        return self.car_type + self.seat_description + ' - ' + 'Seat Number' + '  ' + str(self.seat_number)
+
 
 class Bus(models.Model):
     bus_plate_number = models.CharField(max_length=60, verbose_name="Registration Number")
     colour = models.CharField(max_length=50, verbose_name="Bus Colour")
     engine_number = models.CharField(max_length=50, verbose_name="Engine Number")
     bus_image = models.ImageField(verbose_name="Bus Image", upload_to=upload_to)
+    bus_seats = models.ManyToManyField(Seat, "Add Seats To Bus")
+
+    def __str__(self):
+        return self.bus_plate_number
 
 
 class Route(CreationModificationDateMixin):
@@ -44,17 +61,17 @@ class Route(CreationModificationDateMixin):
     bus = models.OneToOneField(Bus, verbose_name="Going Bus")
     departure_time = models.DateTimeField(verbose_name="Departure Time")
 
-
-class Seat(models.Model):
-    seat_number = models.IntegerField(verbose_name="SEAT NUMBER")
-    seat_description = models.CharField(verbose_name="SEAT DESCRIPTION", max_length=50)
-    bus_seat = models.OneToOneField(Bus, verbose_name="Bus")
+    def __str__(self):
+        return self.route_name
 
 
 class Reservation(CreationModificationDateMixin):
     reservation_number = models.UUIDField(default=uuid.uuid4, editable=False)
     destination = models.ForeignKey(Route, verbose_name="Select A Route")
-    seat_number = models.OneToOneField(Seat, verbose_name="PICK A SEAT")
+    seat_number = models.IntegerField(verbose_name="PICK A SEAT", null=True)
+    car_class = models.CharField(verbose_name="CAR Class", max_length=200,blank=True)
+    car_plate_num = models.CharField(verbose_name="CAR Plate Num", max_length=200, blank=True)
+    car_type = models.CharField(verbose_name="CAR TYPE", max_length=200, blank=True)
 
     def __str__(self):
-        return str(self.reservation_number)
+        return str(self.reservation_number) + " " + str(self.seat_number) + "  " + str(self.destination)

@@ -21,7 +21,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <link href="{% static 'homepagestatic/css/style.css' %}" type="text/css" rel="stylesheet" media="all">
 <link rel="stylesheet" href="{% static 'homepagestatic/css/flexslider.css' %}" type="text/css" media="screen" />  <!-- flexslider-CSS -->
 <link href="{% static 'homepagestatic/css/font-awesome.css' %}" rel="stylesheet">		<!-- font-awesome icons -->
-<!-- //Custom Theme files -->  
+<!-- //Custom Theme files -->
 <!-- web-fonts -->   
 <link href="//fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700" rel="stylesheet">
 <link href="//fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
@@ -47,16 +47,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<div class="w3menu navbar-right">
 							<ul class="nav navbar">
-								<li><a href="index.html" class="active">Home</a></li>
-								<li><a href="about.html">About</a></li> 
-								<li><a href="gallery.html">Gallery</a></li>
-								<li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span data-letters="Pages">Pages</span><span class="caret"></span></a>
-									<ul class="dropdown-menu"> 
-										<li><a href="icons.html">Web Icons</a></li>
-										<li><a href="codes.html">Short Codes</a></li>
-									</ul>
-								</li>  
-								<li><a href="contact.html">Contact</a></li>
+								<li><a href="{% url 'home' %}" class="active">Home</a></li>
+								<li><a href="{% url 'login' %}">Login</a></li>
+								<li><a href="{% url 'register' %}">Register</a></li>
+								<li><a href="contact.html">Active Reservations</a></li>
+								<li><a href="contact.html">About</a></li>
 							</ul>
 						</div> 
 						<div class="clearfix"> </div>  
@@ -181,149 +176,44 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         </div><!-- /.modal -->
 
 	<!-- //register modal -->
-        <div class="container-fluid col-md-4 col-lg-4 ">
+        <div class="container-fluid  ">
             <div class="row">
                 <table class="table">
+                    <caption>Active Reservations Table</caption>
                   <thead>
                     <tr>
-                      <th>#</th>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Username</th>
+                      <th>No</th>
+                      <th>Route</th>
+                      <th>Departure Time</th>
+                      <th>Stop Points 1</th>
+                      <th>Description</th>
+                      <th>Price</th>
+                      <th>Status</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
+        {% for routes in route %}
                   <tbody>
+            {% if routes.status %}
                     <tr>
                       <th scope="row">1</th>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
+                      <td>{{ routes.route_name }}</td>
+                      <td>{{ routes.departure_time }}</td>
+                      <td>{{ routes.stop_point }}</td>
+                        <td>{{ routes.route_description }}</td>
+                        <td>{{ routes.bus }}</td>
+                        <td> Active </td>
+                        <td><a href="{% url 'reserve' route=routes.id bus=routes.bus_id name=routes.route_name %}" class="btn btn-success" role="button">Reserve A Seat</a></td>
+
                     </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td>@fat</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>Larry</td>
-                      <td>the Bird</td>
-                      <td>@twitter</td>
-                    </tr>
+            {% endif %}
+                   {% endfor %}
                   </tbody>
                 </table>
             </div>
         </div>
     <!-- welcome -->
-	<div class="welcome" id="welcome">
-		<div class="container">
-			<div class="agileits-title">
-				<h3>Who We Are</h3>
-			</div>
-			<div class="welcomerow-agileinfo">
-				<h5>Blanditiis praesentium deleniti atque corrupti quos corrupti quos dolores</h5>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mattis pharetra turpis, a scelerisque enim venenatis luctus. Cras blandit dolor a facilisis tincidunt. Vivamus sed orci aliquam, aliquet tellus ut, ornare nunc. Praesent lacinia elit id libero pulvinar, sit amet faucibus felis ornare. Pellentesque nulla lorem, pretium vel bibendum in, elementum id urna. Sed interdum interdum accumsan. Aenean nec purus ac orci finibus facilisis. In sit amet placerat nisl, in auctor sapien.</p>
-			</div>
-		</div>
-	</div>
-	<!-- //welcome -->
 
-
-
-	<!-- services -->
-	<div class="services">
-		<div class="container">
-			<div class="agileits-title">
-				<h3>Services</h3>
-			</div>  
-			<div class="services-w3lsrow">
-				<div class="col-md-3 col-sm-3 col-xs-6 services-grids">  
-					<i class="fa fa-gears icon" aria-hidden="true"></i> 
-					<h4>Fugiat Quo</h4>
-					<p>Phasellus at placerat ante nulla adipiscing elit</p>
-				</div>
-				<div class="col-md-3 col-sm-3 col-xs-6 services-grids">
-					<div class="w3agile-servs-img">
-						<i class="fa fa-group icon" aria-hidden="true"></i> 
-						<h4>Voluptas </h4>
-						<p>Phasellus at placerat ante nulla adipiscing elit</p>
-					</div>
-				</div>
-				<div class="col-md-3 col-sm-3 col-xs-6 services-grids">
-					<div class="w3agile-servs-img">
-						<i class="fa fa-briefcase icon" aria-hidden="true"></i>
-						<h4>Quo fugiat</h4>
-						<p>Phasellus at placerat ante nulla adipiscing elit</p>
-					</div>
-				</div> 	
-				<div class="col-md-3 col-sm-3 col-xs-6 services-grids">
-					<div class="w3agile-servs-img">
-						<i class="fa fa-list-alt icon" aria-hidden="true"></i>
-						<h4>Corrupti</h4>
-						<p>Phasellus at placerat ante nulla adipiscing elit</p>
-					</div>
-				</div> 
-				<div class="clearfix"> </div>
-			</div>	 
-		</div>
-	</div>	
-	<!-- //services -->
-	<!-- subscribe -->
-	<div class="subscribe jarallax">
-		<div class="container">
-			<div class="agileits-title title2">
-				<h3>Subscribe</h3>
-			</div>   
-			<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur adipisci velit sed quia non numquam eius.</p>
-			<form>
-				<input type="email" name="email" placeholder="Email Address" class="user" required="">
-				<input type="submit" value="Subscribe">
-			</form>
-			<p class="spam">We never share your information or use it to spam you</p>
-		</div>
-	</div>
-	<!-- //subscribe -->
-		<!-- footer -->
-	<div class="footer w3-w3layouts">
-		<div class="container"> 
-			<div class="footer-agileinfo">
-				<div class="col-md-4 col-sm-4 footer-wthreegrid">
-					<h3>About Me</h3> 
-					<div class=" footerabt-w3text"> 
-						<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi non nibh nec enim sollicitudin interdum. </p>
-						<div class="social-w3licon">
-							<a href="#" class="social-button twitter"><i class="fa fa-twitter"></i></a>
-							<a href="#" class="social-button facebook"><i class="fa fa-facebook"></i></a> 
-							<a href="#" class="social-button google"><i class="fa fa-google-plus"></i></a> 
-							<a href="#" class="social-button dribbble"><i class="fa fa-dribbble"></i></a> 
-						</div>  
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="col-md-4 col-sm-4 footer-wthreegrid">
-					<h3>Recent Posts</h3>
-					<ul>
-						<li><a href="#myModal" data-toggle="modal"><i class="fa fa-angle-right"></i>Vestibulum felis</a></li>
-						<li><a href="#myModal" data-toggle="modal"><i class="fa fa-angle-right"></i>Mauris at tellus</a></li>
-						<li><a href="#myModal" data-toggle="modal"><i class="fa fa-angle-right"></i>Donec ut lectus</a></li>
-						<li><a href="#myModal" data-toggle="modal"><i class="fa fa-angle-right"></i>Vitae interdum</a></li>
-					</ul>
-				</div>
-				<div class="col-md-4 col-sm-4 footer-wthreegrid footer-tags">
-					<h3>Tag Cloud</h3>
-					<ul>
-						<li><a href="index.html">Home</a></li>
-						<li><a href="about.html">About</a></li>
-						<li><a href="codes.html">Codes</a></li>
-						<li><a href="gallery.html">Gallery</a></li>
-						<li><a href="contact.html">Contact Us</a></li>
-					</ul>
-				</div> 
-				<div class="clearfix"> </div>
-			</div>  
-		</div>
-	</div>
 	<div class="copy-right"> 
 		<div class="container">
 			<p>© 2017 Passengers. All rights reserved | Design by <a href="http://w3layouts.com"> W3layouts.</a></p>

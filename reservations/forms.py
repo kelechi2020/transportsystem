@@ -1,7 +1,9 @@
 from django import forms
 from crispy_forms.helper import FormHelper
+from django.contrib.auth import authenticate
 from django.contrib.auth.views import login
 
+from reservations.models import Reservation, Seat, Bus
 from .models import Customer, TYPE_CHOICES
 
 
@@ -44,6 +46,26 @@ class Form_login(forms.Form):
     email = forms.CharField(label="E-mail", required=True)
     password = forms.CharField(label="Password", widget=forms.PasswordInput, required=True)
 
+    def clean(self):
+        cleaned_data = super(Form_login, self).clean()
+
+        password = self.cleaned_data.get('password')
+        email = self.cleaned_data.get('email')
+
+        a = authenticate(username=email, password=password)
+        from pprint import pprint
+        pprint(a)
+
+        if not a:
+            raise forms.ValidationError('')
+        if not password:
+            raise forms.ValidationError("Enter a password")
+
+        if not email:
+            raise forms.ValidationError("Enter a password")
+
+        return self.cleaned_data
+
     @property
     def helper(self):
         helper = FormHelper()
@@ -52,3 +74,22 @@ class Form_login(forms.Form):
         helper.label_class = 'col-md-2'
         helper.field_class = 'col-md-10'
         return helper
+
+
+class Form_createreservation(forms.Form):
+    # this line creates the form with four fields.it is an object which inherits from forms.Form.it contains attributes
+
+    # r = Bus.objects.get(bus_id=1)
+    #a = Reservation.objects.filter(destination=route_id/destination_id)
+    #e = [any.seat_number for any in a]
+        #for seat in e
+    #b = Bus.objects.get(id=1).bus_seats.values().exclude(seat_number__in=e)
+
+    #
+    #
+    #
+    #
+    #
+    route = forms.CharField(label="Password", widget=forms.PasswordInput)
+    seat = forms.MultipleChoiceField(label="Supervisor")
+
