@@ -2,10 +2,10 @@
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
-<div class="row">
+
     <form class="form-horizontal" action="{% url 'login' %}" method="post">
         {% crispy form %}
         <input type="submit" class="btn btn-submit col-md-offset-2">
     </form>
-</div>
+
 

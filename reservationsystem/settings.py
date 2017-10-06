@@ -40,9 +40,10 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'utils',
     'crispy_forms',
-    'reservations'
+    'reservations',
+    'import_export'
 )
-
+LOGIN_URL = 'public_connection'
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

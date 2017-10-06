@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+<div class="table table-responsive table-hover">
+    <table>
+            <caption>My reservations</caption>
+        <thead>
+        <tr>
+            <th>Ticket Number</th>
+            <th>Destination</th>
+            <th>Going Bus</th>
+            <th>Seat Number</th>
+        </tr>
+        </thead>
+        {% for reservation in my_reservation %}
+        <tbody>
+        <tr>
+            <th>{{ reservation.reservation_number | truncatechars:13 }}</th>
+            <td>{{ reservation.destination }}</td>
+            <td>{{ reservation.destination.bus.bus_plate_number }}</td>
+            <td>{{ reservation.seat_number }}</td>
+              <td><a href="" class="btn btn-success" role="button">Print Ticket</a></td>
+
+        </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+
+
+</div>
+</div>
+
+
+{% endblock %}

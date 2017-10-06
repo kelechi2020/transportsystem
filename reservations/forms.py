@@ -38,7 +38,7 @@ class Form_createuser(forms.ModelForm):
         helper.form_tag = False  # don't render form DOM element
         helper.render_unmentioned_fields = True  # render all fields
         helper.label_class = 'col-md-2'
-        helper.field_class = 'col-md-10'
+        helper.field_class = 'col-md-8'
         return helper
 
 
@@ -71,7 +71,7 @@ class Form_login(forms.Form):
         helper = FormHelper()
         helper.form_tag = False  # don't render form DOM element
         helper.render_unmentioned_fields = True  # render all fields
-        helper.label_class = 'col-md-2'
+        helper.label_class = 'col-md-8'
         helper.field_class = 'col-md-10'
         return helper
 

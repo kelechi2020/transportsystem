@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from reservations import forms
 from reservations.models import Reservation, Bus, Route
@@ -26,9 +26,9 @@ def formsubmit(request):
         seat = request.POST.get('seat')
         route = request.POST.get('route')
         route_instance = Route.objects.get(id=route)
-        reserve = Reservation.objects.create(destination=route_instance, seat_number=seat)
+        reserve = Reservation.objects.create(destination=route_instance, seat_number=seat, user=request.user.username)
         reserve.save()
-        return render(request, 'make_reservations.html')
+        return redirect('distinct-reservations')
     else:
         return render(request, 'make_reservations.html')
 

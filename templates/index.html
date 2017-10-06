@@ -1,10 +1,5 @@
 {% load static %}
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,17 +36,24 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>  
-						<h1><a href="index.html">Passengers</a></h1> 
+						<h1><a href="index.html">Gombe Line</a></h1>
 					</div>
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<div class="w3menu navbar-right">
 							<ul class="nav navbar">
 								<li><a href="{% url 'home' %}" class="active">Home</a></li>
-								<li><a href="{% url 'login' %}">Login</a></li>
-								<li><a href="{% url 'register' %}">Register</a></li>
-								<li><a href="contact.html">Active Reservations</a></li>
-								<li><a href="contact.html">About</a></li>
+								{% if not user.is_authenticated %}
+                                <li><a href="#welcome">Login</a></li>
+								<li><a href="#welcome">Register</a></li>
+                                {% endif %}
+                                {% if user.is_authenticated %}
+								<li><a href="{% url 'distinct-reservations' %}">My Reservations</a></li>
+
+                                <li><a href="{% url 'route' %}">Active Reservations</a></li>
+                                <li><a href="{% url 'logout' %}">Logout</a></li>
+                            {% endif %}
+
 							</ul>
 						</div> 
 						<div class="clearfix"> </div>  
@@ -66,20 +68,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<ul class="slides">
 							<li>
 								<div class="banner-w3lstext">  
-									<h2>Sapiente delectus</h2>
-									<p>Lorem ipsum dolor sit amet. Sed tincidunt lorem sed velit fermentum lobortis.</p>	
+									<h2>Book A Seat Now</h2>
+									<p>Click Arrow Below To View Active Reservations</p>
 								</div>
 							</li>
 							<li>
 								<div class="banner-w3lstext">  
-									<h3>Fusce dolor semper </h3> 
-									<p>Lorem ipsum dolor sit amet. Sed tincidunt lorem sed velit fermentum lobortis.</p>	
-								</div>
-							</li>
-							<li>
-								<div class="banner-w3lstext">  
-									<h3>Integer vitae ligula </h3> 
-									<p>Lorem ipsum dolor sit amet. Sed tincidunt lorem sed velit fermentum lobortis.</p>	
+									<h2>Book A Seat Now</h2>
+									<p>Click Arrow Below To View Active Reservations</p>
 								</div>
 							</li>
 						</ul> 
@@ -87,13 +83,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</div>
 			</div>
 			<!-- //banner-text -->  
-			<!-- arrow bounce --> 
-			<div class="agileits-arrow bounce animated"><a href="#welcome" class="scroll"><i class="fa fa-angle-down" aria-hidden="true"></i></a></div>
-			<!-- //arrow bounce -->  
+			<!-- arrow bounce -->
+            {% if user.is_authenticated %}
+                <div class="agileits-arrow bounce animated"><a href="#activereserve" class="scroll"><i class="fa fa-angle-down" aria-hidden="true"></i></a></div>
+            {% else %}
+			    <div class="agileits-arrow bounce animated"><a href="#welcome" class="scroll"><i class="fa fa-angle-down" aria-hidden="true"></i></a></div>
+			{% endif %}
+            <!-- //arrow bounce -->
 		</div>
 	</div>
 	<!-- //banner --> 
 	<!-- features -->
+{% if not user.is_authenticated %}
 	<div class="features"class="welcome" id="welcome">
         <div class="agileits-title">
 				<h3>Login</h3>
@@ -126,8 +127,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<div class="features-w3lright">
                             {% block content1 %}
                             <div class="item">
-                                <button id="login-button" class="btn btn-large w3ls-login">Login</button>
-							    <a href="{% url "login" %}"  data-target="#form-modal-login" class="w3ls-login" data-toggle="modal" >Register</a>
+
+							    <a href="{% url "login" %}"  data-target="#form-modal-login" class="w3ls-login" data-toggle="modal" >Login</a>
                             </div>
                             {% endblock %}
 						</div>
@@ -138,6 +139,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 		</div>
 	</div>
+    {% endif %}
 	<!-- //features -->
     <!-- Login modal popup -->
     <div id="form-modal-login" class="modal fade">
@@ -176,7 +178,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         </div><!-- /.modal -->
 
 	<!-- //register modal -->
-        <div class="container-fluid  ">
+{% if user.is_authenticated %}
+        <div class="container-fluid" id="activereserve">
             <div class="row">
                 <table class="table">
                     <caption>Active Reservations Table</caption>
@@ -196,22 +199,24 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                   <tbody>
             {% if routes.status %}
                     <tr>
-                      <th scope="row">1</th>
+                      <th scope="row">{{ routes.id }}</th>
                       <td>{{ routes.route_name }}</td>
                       <td>{{ routes.departure_time }}</td>
                       <td>{{ routes.stop_point }}</td>
                         <td>{{ routes.route_description }}</td>
-                        <td>{{ routes.bus }}</td>
+                        <td>{{ routes.price }}</td>
                         <td> Active </td>
                         <td><a href="{% url 'reserve' route=routes.id bus=routes.bus_id name=routes.route_name %}" class="btn btn-success" role="button">Reserve A Seat</a></td>
 
                     </tr>
-            {% endif %}
-                   {% endfor %}
+
                   </tbody>
+                    {% endif %}
+                   {% endfor %}
                 </table>
             </div>
         </div>
+    {% endif %}
     <!-- welcome -->
 
 	<div class="copy-right"> 

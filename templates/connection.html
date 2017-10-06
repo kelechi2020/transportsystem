@@ -1,0 +1,176 @@
+
+{% load static %}
+
+
+<html lang="en">
+
+
+<!-- Mirrored from mdbootstrap.com/live/_MDB/templates/Admin/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 Jul 2017 19:05:07 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Material Design Bootstrap</title>
+
+    <!-- Meta OG -->
+    <meta property="og:title" content="Simple login form - Material Admin Dashboard">
+    <meta property="og:description" content="Basic login form with nothing more than just required minimum to let your users log into teir accounts.">
+    <meta property="og:image" content="../../../../img/Live/MDB/product-page.jpg">
+    <meta property="og:url" content="login.html">
+    <meta property="og:site_name" content="mdbootstrap.com">
+    <!-- /Meta OG -->
+
+    <!-- Twitter Card -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:description" content="Basic login form with nothing more than just required minimum to let your users log into teir accounts." />
+	<meta name="twitter:title" content="Simple login form - Material Admin Dashboard" />
+	<meta name="twitter:site" content="@MDBootstrap" />
+	<meta name="twitter:image" content="../../../../img/Live/MDB/product-page.jpg" />
+	<meta name="twitter:creator" content="@MDBootstrap" />
+	<!-- /Twitter Card -->
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Material Design Bootstrap</title>
+
+    <!-- Meta OG -->
+    <meta property="og:title" content="Simple login form - Material Admin Dashboard">
+    <meta property="og:description" content="Basic login form with nothing more than just required minimum to let your users log into teir accounts.">
+    <meta property="og:image" content="../../../../img/Live/MDB/product-page.jpg">
+    <meta property="og:url" content="login.html">
+    <meta property="og:site_name" content="mdbootstrap.com">
+    <!-- /Meta OG -->
+
+    <!-- Twitter Card -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:description" content="Basic login form with nothing more than just required minimum to let your users log into teir accounts." />
+	<meta name="twitter:title" content="Simple login form - Material Admin Dashboard" />
+	<meta name="twitter:site" content="@MDBootstrap" />
+	<meta name="twitter:image" content="../../../../img/Live/MDB/product-page.jpg" />
+	<meta name="twitter:creator" content="@MDBootstrap" />
+	<!-- /Twitter Card -->
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'mdb/css/font-awesome.min.css' %}">
+
+    <!-- Bootstrap core CSS handles sizing-->
+    <link href="{% static 'mdb/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Material Design Bootstrap handles colour -->
+    <link href="{% static 'mdb/css/mdb.css' %}" rel="stylesheet">
+
+    <!-- Your custom styles (optional) -->
+    <link href="{% static 'mdb/css/style.css' %}" rel="stylesheet">
+
+    <!-- Customizer -->
+    <link rel="stylesheet" href="{% static 'mdb/css/customizer.min.css' %}">
+
+
+
+    <!-- Font Awesome -->
+
+
+</head>
+
+
+
+ {% if user.is_authenticated %}
+        <!-- This line checks if the user is connected.-->
+        <h1>You are connected.</h1>
+        <p>
+            Your email : {{ user.email }}
+            <!-- In this line, if the user is connected, this line will display his e-mail address.-->
+        </p>
+    {% else %}
+
+<body class="fixed-sn indigo-skin">
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-5 login-form mx-auto float-none">
+
+                <!--Form with header-->
+                <div class="card">
+                    <div class="card-block">
+
+                        <!--Header-->
+                        <div class="form-header">
+                            <h3><i class="fa fa-lock"></i> Login:</h3>
+                        </div>
+						<form  method="post" action="" >
+                            {% csrf_token %}
+                        <!--Body-->
+                        <div class="md-form">
+                            <i class="fa fa-envelope prefix"></i>
+                            <input type="text" id="form2" class="form-control" name="email">
+                            <label for="form2">Your email</label>
+                        </div>
+
+                        <div class="md-form">
+                            <i class="fa fa-lock prefix"></i>
+                            <input type="password" id="form4" class="form-control" name="password">
+                            <label for="form4">Your password</label>
+                        </div>
+
+                        <div class="text-center ">
+                            <button type="submit" class="btn btn-primary ">Login</button>
+
+
+                        </div>
+							</form>
+                    </div>
+
+                    <!--Footer-->
+
+                </div>
+                 {% endif %}
+                <!--/Form with header-->
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SCRIPTS -->
+
+    <!-- JQuery -->
+
+
+
+ <!-- JQuery -->
+    <script type="text/javascript" src="{% static 'mdb/js/jquery-3.1.1.min.js' %}"></script>
+
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="{% static 'mdb/js/tether.min.js' %}"></script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="{% static 'mdb/js/bootstrap.min.js' %}"></script>
+
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="{% static 'mdb/js/mdb.min.js' %}"></script>
+
+    <!-- Customizer -->
+    <script type="text/javascript" src="{% static 'mdb/js/customizer.min.js' %}"></script>
+
+    <script type="text/javascript">
+        // Tooltips Initialization
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip('show')
+        })
+    </script>
+</body>
+
+
+<!-- Mirrored from mdbootstrap.com/live/_MDB/templates/Admin/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 Jul 2017 19:05:07 GMT -->
+</html>
+<!-- SCRIPTS -->
+
+
+
+

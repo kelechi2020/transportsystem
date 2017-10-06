@@ -1,10 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
-</body>
-</html>
+
+{% block heading %}
+Dashboard / Active Routes
+
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid">
+                <table class="table table-hover  table-responsive col-sm-5 col-lg-1 col-md-2 ">
+                    <caption>Active Reservations Table</caption>
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Route</th>
+                      <th>Departure Time</th>
+                      <th>Stop Points 1</th>
+                      <th>Description</th>
+                      <th>Price</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                {% for routes in route %}
+                          <tbody>
+                    {% if routes.status %}
+                            <tr>
+                              <th scope="row">{{ routes.id }}</th>
+                              <td>{{ routes.route_name }}</td>
+                              <td>{{ routes.departure_time }}</td>
+                              <td>{{ routes.stop_point }}</td>
+                                <td>{{ routes.route_description }}</td>
+                                <td>{{ routes.price }}</td>
+                                <td> Active </td>
+                                <td><a href="{% url 'reserve' route=routes.id bus=routes.bus_id name=routes.route_name %}" class="btn btn-success" role="button">Reserve A Seat</a></td>
+
+                            </tr>
+            {% endif %}
+                   {% endfor %}
+                  </tbody>
+                </table>
+            </div>
+
+{% endblock %}

@@ -51,9 +51,6 @@ class SmilesView(SuccessMessageMixin, AjaxTemplateMixin, FormView):
             new = authenticate(username=email, password=password)
             if new is not None:
                 login(request, new)
-
-            new_customer = Customer(phone=phone, blood_group=blood_group, address=address, name=name, email=email)
-            new_customer.save()
             new_user.save()
         return super(SmilesView, self).post(request, *args, **kwargs)
 

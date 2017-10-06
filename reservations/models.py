@@ -7,7 +7,7 @@ from utils.models import CreationModificationDateMixin
 TYPE_CHOICES = (
         ('o+', "O+"),
         ('A+', "A+"),
-        ('abia state', 1 )
+
     )
 
 def upload_to(instance, filename):
@@ -66,6 +66,7 @@ class Route(CreationModificationDateMixin):
 
 
 class Reservation(CreationModificationDateMixin):
+    user = models.CharField(default='Admin', verbose_name='Reservation Owner', max_length=200)
     reservation_number = models.UUIDField(default=uuid.uuid4, editable=False)
     destination = models.ForeignKey(Route, verbose_name="Select A Route")
     seat_number = models.IntegerField(verbose_name="PICK A SEAT", null=True)

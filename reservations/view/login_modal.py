@@ -63,7 +63,7 @@ class LoginView(SuccessMessageMixin, AjaxTemplateMixin, FormView):
         form = self.form_class(request.POST)
 
         if form.is_valid():
-            user = form.save(commit=False)
+
             password = form.cleaned_data['password']
             email = form.cleaned_data['email']
             new = authenticate(username=email, password=password)
@@ -72,11 +72,63 @@ class LoginView(SuccessMessageMixin, AjaxTemplateMixin, FormView):
                 if request.GET.get('next') is not None:
                     return redirect(request.GET['next'])
 
-            user.save()
+
         return super(LoginView, self).post(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(LoginView, self).get_context_data(**kwargs)
+        print(type(context))
+        # this allows calling the method of the super class. Without this line
+        # we would not have the basic context
+        route = Route.objects.all()
+        # This allows us to retrieve the list of developer task.we use self.object,
+        # which is a developer type object already defined by the DetailView class
+
+        context['route'] = route
+
+        return context
+
+
+class LoginAgain(SuccessMessageMixin, AjaxTemplateMixin, FormView):
+    template_name = 'login_again.html'
+    form_class = Form_login
+    success_message = "Way to go!"
+    success_url = reverse_lazy('route')
+    redirect_field_name = REDIRECT_FIELD_NAME
+
+    @method_decorator(sensitive_post_parameters('password'))
+    @method_decorator(csrf_protect)
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        # Sets a test cookie to make sure the user has cookies enabled
+        request.session.set_test_cookie()
+
+        return super(LoginAgain, self).dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        redirect_to = self.request.REQUEST.get(self.redirect_field_name)
+        if not is_safe_url(url=redirect_to, host=self.request.get_host()):
+            redirect_to = self.success_url
+        return redirect_to
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+
+            password = form.cleaned_data['password']
+            email = form.cleaned_data['email']
+            new = authenticate(username=email, password=password)
+            if new is not None:
+                login(request, new)
+                if request.GET.get('next') is not None:
+                    return redirect(request.GET['next'])
+
+
+        return super(LoginAgain, self).post(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(LoginAgain, self).get_context_data(**kwargs)
         print(type(context))
         # this allows calling the method of the super class. Without this line
         # we would not have the basic context
