@@ -25,10 +25,6 @@ SECRET_KEY = 'l73p&agp_rl$o$#i0_la2e=8nqcldq-!+f&8d*2(a44xtyo6ce'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 
@@ -39,6 +35,7 @@ STATICFILES_DIRS = (
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Application definition
+print(BASE_DIR)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
