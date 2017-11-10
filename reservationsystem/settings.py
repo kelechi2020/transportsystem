@@ -24,7 +24,7 @@ SECRET_KEY = 'l73p&agp_rl$o$#i0_la2e=8nqcldq-!+f&8d*2(a44xtyo6ce'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['transportreserve.herokuapp.com']
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 
