@@ -53,12 +53,6 @@ class LoginView(SuccessMessageMixin, AjaxTemplateMixin, FormView):
 
         return super(LoginView, self).dispatch(request, *args, **kwargs)
 
-    def get_success_url(self):
-        redirect_to = self.request.REQUEST.get(self.redirect_field_name)
-        if not is_safe_url(url=redirect_to, host=self.request.get_host()):
-            redirect_to = self.success_url
-        return redirect_to
-
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
 

@@ -3,7 +3,7 @@ from django.shortcuts import render
 from reservations.models import Reservation
 
 
-def page(request):
+def user_reservationpage(request):
     my_reservation = Reservation.objects.filter(user=request.user.username)
     from pprint import pprint
 

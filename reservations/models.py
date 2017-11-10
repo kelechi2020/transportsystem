@@ -42,7 +42,7 @@ class Bus(models.Model):
     colour = models.CharField(max_length=50, verbose_name="Bus Colour")
     engine_number = models.CharField(max_length=50, verbose_name="Engine Number")
     bus_image = models.ImageField(verbose_name="Bus Image", upload_to=upload_to)
-    bus_seats = models.ManyToManyField(Seat, "Add Seats To Bus")
+    bus_seats = models.ManyToManyField(Seat, "Add Seats To Bus+")
 
     def __str__(self):
         return self.bus_plate_number

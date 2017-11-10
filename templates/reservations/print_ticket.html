@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html>
+<head>
+        <meta charset="utf-8" />
+        <title>MY TICKET</title>
+        <style type="text/css">
+      @page {
+        size: "A4";
+        margin: 2.5cm 1.5cm 2.5cm 1.5cm;
+        @frame footer {
+          -pdf-frame-content: footerContent;
+          bottom: 0cm;
+          margin-left: 0cm;
+          margin-right: 0cm;
+          height: 1cm;
+        }
+      }
+      #footerContent {
+        color: #666;
+        font-size: 10pt;
+        text-align: center;
+      }
+      #bold{
+          font-size: 200pt;
+            text-align: center;
+      }
+      /* … Other CSS Rules go here … */
+</style>
+
+</head>
+        <body>
+    <div>
+        <h1 id="bold">Gombe Line Online Seat Reservation System</h1>
+        <hr>
+      <h2>{{ ticket.user }} Travel ticket</h2>
+          <table>
+                <tr>
+                  <td><p><b>Ticket Number</b><br />
+                     {{ ticket.reservation_number | truncatechars:13 }}</p>
+                  </td>
+                  <td align="right">
+                    <img src="{{ STATIC_ROOT }}\ticketlogo\barcode.png"
+                        width="100" height="100" />
+                  </td>
+
+                </tr>
+          </table>
+        <h1 id="bold">Bus Details</h1>
+        <hr>
+        <table>
+
+            <tr>
+                <td>Bus Plate Number : {{ ticket.destination.bus.bus_plate_number }}</td>
+                <td>Seat Number : {{ ticket.seat_number }}</td>
+            </tr>
+        </table>
+            <h2 id="bold">Customer Details</h2>
+            <table border="2px solid black">
+                <tr>
+                    <td>Name : {{ details.name }}</td>
+                </tr>
+
+                <tr>
+                    <td>Phone Number : {{ details.phone }}</td>
+                </tr>
+
+                <tr>
+                    <td>Address : {{ details.address }}</td>
+                </tr>
+
+
+
+
+
+            </table>
+    </div>
+
+      <div id="footerContent">
+        Document generated at {% now "Y-m-d" %} |
+        Page <pdf:pagenumber> of <pdf:pagecount>
+      </div>
+  </body>
+
+
+</html>

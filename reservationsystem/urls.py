@@ -4,6 +4,10 @@ from reservations.view.login_modal import LoginAgain
 
 from django.contrib.auth import authenticate
 
+from reservations.view.logout import logoutpage
+from reservations.view.user_reservation import user_reservationpage
+from reservations.views import reservationsviewspage, reservationsviewslogpage
+
 urlpatterns = [
     # Examples:
     # url(r'^$', 'reservationsystem.view.home', name='home'),
@@ -11,9 +15,9 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^modal/', include('reservations.urls')),
-    url(r'^$', 'reservations.views.page', name='home'),
-    url(r'^connection-Tasksmanager$', 'reservations.views.logpage', name="public_connection"),
-    url(r'^myreserve$', 'reservations.view.user_reservation.page', name="distinct-reservations"),
-    url(r'^logout$','reservations.view.logout.page', name="logout"),
+    url(r'^$', reservationsviewspage, name='home'),
+    url(r'^connection-Tasksmanager$', reservationsviewslogpage, name="public_connection"),
+    url(r'^myreserve$', user_reservationpage, name="distinct-reservations"),
+    url(r'^logout$',logoutpage, name="logout"),
     url(r'^login-again$',LoginAgain.as_view(), name="login-again"),
 ]

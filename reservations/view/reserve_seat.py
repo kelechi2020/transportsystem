@@ -4,7 +4,7 @@ from reservations import forms
 from reservations.models import Reservation, Bus, Route
 
 
-def page(request, route, bus, name):
+def reserve_seatpage(request, route, bus, name):
     from pprint import pprint
     a = Reservation.objects.filter(destination=route)
     e = [any.seat_number for any in a]

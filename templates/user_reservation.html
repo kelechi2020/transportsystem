@@ -20,7 +20,7 @@
             <td>{{ reservation.destination }}</td>
             <td>{{ reservation.destination.bus.bus_plate_number }}</td>
             <td>{{ reservation.seat_number }}</td>
-              <td><a href="" class="btn btn-success" role="button">Print Ticket</a></td>
+              <td><a href="{% url 'print_ticket' reservation_id=reservation.id %}" class="btn btn-success" role="button">Print Ticket</a></td>
 
         </tr>
         </tbody>

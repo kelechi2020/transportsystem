@@ -44,12 +44,13 @@ class SmilesView(SuccessMessageMixin, AjaxTemplateMixin, FormView):
             blood_group = form.cleaned_data['blood_group']
 
             new = User.objects.create_user(username=email, password=password)
-            from pprint import pprint
-            pprint(dir(new))
+
+
+
             new.is_active = True
             new.save()
-            new = authenticate(username=email, password=password)
-            if new is not None:
+            authenticate_new = authenticate(username=email, password=password)
+            if authenticate_new is not None:
                 login(request, new)
             new_user.save()
         return super(SmilesView, self).post(request, *args, **kwargs)

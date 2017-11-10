@@ -30,7 +30,7 @@ class Form_createuser(forms.ModelForm):
 
     class Meta:
         model = Customer
-        fields = ['name','email','address','password','password_bis','blood_group']
+        fields = ['name','email','address','password','password_bis','blood_group', 'phone']
 
     @property
     def helper(self):

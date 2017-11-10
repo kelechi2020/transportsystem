@@ -6,7 +6,7 @@ from django.shortcuts import render
 from .models import Customer, Seat, Route, Reservation, Bus
 from django.contrib.auth import authenticate, login
 
-def page(request):
+def reservationsviewspage(request):
 
     route = Route.objects.all()
     from pprint import pprint
@@ -26,7 +26,7 @@ class Form_login(forms.Form):
     password = forms.CharField()
 
 
-def logpage(request):
+def reservationsviewslogpage(request):
 	if request.POST:
 	# This line is used to check if the Form_connection form has been posted. If mailed, the form will be treated, otherwise it will be displayed to the user.
 		form = Form_login(request.POST)
