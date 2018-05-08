@@ -1,5 +1,6 @@
 from django.conf import settings
 from django import forms
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
@@ -7,10 +8,7 @@ from .models import Customer, Seat, Route, Reservation, Bus
 from django.contrib.auth import authenticate, login
 
 def reservationsviewspage(request):
-
     route = Route.objects.all()
-    from pprint import pprint
-    pprint(request.user.username)
     return render(request, 'index.html', {'route': route})
 
 
@@ -51,3 +49,5 @@ def reservationsviewslogpage(request):
 	else:
 		form = Form_login()
 	return render(request, 'connection.html', {'form' : form})
+
+

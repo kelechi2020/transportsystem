@@ -1,0 +1,249 @@
+{% load static %}
+{% load paystack %}
+
+
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bus Ticket Reservation Widget Flat Responsive Widget Template :: w3layouts</title>
+<!-- for-mobile-apps -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Bus Ticket Reservation Widget Responsive, Login form web template, Sign up Web Templates, Flat Web Templates, Login signup Responsive web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<!-- //for-mobile-apps -->
+<link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="{% static 'ticket_chart_asset/css/jquery.seat-charts.css' %}">
+<link href="{% static 'ticket_chart_asset/css/style.css' %}" rel="stylesheet" type="text/css" media="all" />
+<link href="{% static 'bootstrap/css/boot.css' %}" rel="stylesheet" type="text/css"  />
+<script src="{% static 'ticket_chart_asset/js/jquery-1.11.0.min.js' %}"></script>
+<script src="{% static 'ticket_chart_asset/js/jquery.seat-charts.js' %}"></script>
+<script src="{% static 'ticket_chart_asset/js/books.js' %}"></script>
+</head>
+<body>
+<div class="content">
+	<h1>Bus Ticket Reservation Widget</h1>
+	<div class="main">
+		<h2>Book Your Seat Now?</h2>
+		<div class="wrapper">
+			<div id="seat-map">
+				<div class="front-indicator"><h3>Front</h3></div>
+			</div>
+			<div class="booking-details">
+						<div id="legend"></div>
+						<h3> Selected Seats (<span id="counter">0</span>):</h3>
+						<ul id="selected-seats" class="scrollbar scrollbar1"></ul>
+
+						Total: <b>$<span id="total">0</span></b>
+
+						<button class="checkout-button" id="book-seat">Pay Now</button>
+                {% paystack_button amount=3000 email="egbosikelechi@gmail.com"  %}
+			</div>
+			<div class="clear"></div>
+
+		</div>
+        <div class="bootstrap">
+            <div class="modal fade" id="modal-book">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+		<script>
+
+				var firstSeatLabel = 1;
+                var chr = {{ car_chart|safe }};
+				$(document).ready(function() {
+				    var seat_selected = [];
+				    var $cart = $('#selected-seats'),
+						$counter = $('#counter'),
+						$total = $('#total'),
+						sc = $('#seat-map').seatCharts({
+						map: [
+                            'f_f_f',
+                            'fff__',
+                            'eeee_',
+                            'eeee'
+
+						],
+						seats: {
+							f: {
+								price   : 10,
+								classes : 'first-class', //your custom CSS class
+								category: 'First Class'
+							},
+							e: {
+								price   : 40,
+								classes : 'economy-class', //your custom CSS class
+								category: 'Economy Class'
+							},
+
+
+						},
+						naming : {
+							top : false,
+							getLabel : function (character, row, column) {
+								return firstSeatLabel++;
+							},
+						},
+						legend : {
+							node : $('#legend'),
+							items : [
+								[ 'f', 'available',   'First Class' ],
+								[ 'e', 'available',   'Economy Class'],
+								[ 'f', 'unavailable', 'Already Booked'],
+
+
+							]
+						},
+						click: function () {
+							if (this.status() == 'available') {
+								//let's create a new <li> which we'll add to the cart items
+								$('<li>'+this.data().category+' : Seat no '+this.settings.label+': <b>$'+this.data().price+'</b> <a href="#" class="cancel-cart-item">[cancel]</a></li>')
+									.attr('id', 'cart-item-'+this.settings.id)
+									.data('seatId', this.settings.id)
+									.appendTo($cart);
+                                    seat_selected.push(this.settings.label);
+                                    alert(seat_selected);
+								/*
+								 * Lets update the counter and total
+								 *
+								 * .find function will not find the current seat, because it will change its stauts only after return
+								 * 'selected'. This is why we have to add 1 to the length and the current seat price to the total.
+								 */
+								$counter.text(sc.find('selected').length+1);
+								var recalc = recalculateTotal(sc)+this.data().price;
+
+								$total.text(recalc);
+
+								return 'selected';
+							} else if (this.status() == 'selected') {
+								//update the counter
+								$counter.text(sc.find('selected').length-1);
+								//and total
+								$total.text(recalculateTotal(sc)-this.data().price);
+
+								//remove the item from our cart
+								$('#cart-item-'+this.settings.id).remove();
+
+                                var index = seat_selected.indexOf(this.settings.label);
+                                if (index > -1){
+                                    seat_selected.splice(index,1);
+                                }
+                                alert(JSON.stringify(seat_selected));
+
+								//seat has been vacated
+								return 'available';
+							} else if (this.status() == 'unavailable') {
+								//seat has been already booked
+								return 'unavailable';
+							} else {
+								return this.style();
+							}
+						}
+					});
+
+					//this will handle "[cancel]" link clicks
+					$('#selected-seats').on('click', '.cancel-cart-item', function () {
+						//let's just trigger Click event on the appropriate seat, so we don't have to repeat the logic here
+						sc.get($(this).parents('li:first').data('seatId')).click();
+					});
+
+					//let's pretend some seats have already been booked
+
+                            $.ajax({
+                                    url: '{% url 'get_booked_seats' route %}',
+                                    data: {'data':data},
+                                    type: 'get',
+                                    dataType: 'json',
+                                 beforeSend: function () {
+
+                                    },
+                                success: function (data) {
+                                    sc.get(data).status('unavailable');
+                                }
+                            });
+                        $('#book-seat').on('click',function () {
+                          data = JSON.stringify(seat_selected);
+                             $.ajax({
+                                    url: '{% url 'make_reserve_ajax' route %}',
+                                    data: {'data':data},
+                                    type: 'post',
+                                    dataType: 'json',
+                                 beforeSend: function () {
+
+                                    },
+                                success: function (data) {
+
+                                        $("#modal-book").modal("show");
+                                    $("#modal-book .modal-content").html(data.already_booked).append(data.message);
+                                    $("#modal-book .modal-content").append(data.ammount_payable)
+
+                                }
+                            });
+
+                                });
+                });
+
+                function recalculateTotal(sc) {
+                    var total = 0;
+
+                    //basically find every selected seat and sum its price
+                    sc.find('selected').each(function () {
+                        total += this.data().price;
+                    });
+
+                    return total;
+                        }
+
+
+		</script>
+
+<script>
+  function payWithPaystack(){
+    var handler = PaystackPop.setup({
+      key: 'pk_test_226b48b78ac2e984956959b9e4a889b91f0c8f13',
+      email: 'egbosikelechi@gmail.com',
+      ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+      metadata: {
+         custom_fields: [
+            {
+                display_name: "Mobile Number",
+                variable_name: "mobile_number",
+                value: "+2348012345678"
+            }
+         ]
+      },
+      callback: function(response){
+          alert('success. transaction ref is ' + response.reference);
+      },
+      onClose: function(){
+          alert('window closed');
+      }
+    });
+    handler.openIframe();
+  }
+</script>
+
+	</div>
+	<p class="copy_rights">&copy; 2016 Bus Ticket Reservation Widget. All Rights Reserved | Design by  <a href="http://w3layouts.com/" target="_blank"> W3layouts</a></p>
+</div>
+<script src="{% static 'ticket_chart_asset/js/jquery.nicescroll.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+<script src="{% static 'ticket_chart_asset/js/scripts.js' %}"></script>
+
+
+
+
+</body>
+</html>

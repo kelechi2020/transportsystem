@@ -84,12 +84,6 @@ class Form_createreservation(forms.Form):
     #e = [any.seat_number for any in a]
         #for seat in e
     #b = Bus.objects.get(id=1).bus_seats.values().exclude(seat_number__in=e)
-
-    #
-    #
-    #
-    #
-    #
     route = forms.CharField(label="Password", widget=forms.PasswordInput)
     seat = forms.MultipleChoiceField(label="Supervisor")
 

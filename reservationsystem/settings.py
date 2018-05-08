@@ -15,6 +15,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -24,7 +25,7 @@ SECRET_KEY = 'l73p&agp_rl$o$#i0_la2e=8nqcldq-!+f&8d*2(a44xtyo6ce'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['transportreserve.herokuapp.com']
+ALLOWED_HOSTS = ['transportreserve.herokuapp.com','127.0.0.1']
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 
@@ -35,7 +36,7 @@ STATICFILES_DIRS = (
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Application definition
-print(BASE_DIR)
+
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -43,16 +44,19 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'material',
-    #'material.admin',
     'django.contrib.admin',
     'utils',
     'crispy_forms',
     'reservations',
-    'import_export'
+    'import_export',
+    # 'debug_toolbar',
+    'paystack',
 )
+PAYSTACK_PUBLIC_KEY='sk_test_8502e8224df1dda33b60b045c06f647865a4ed82',
+PAYSTACK_SECRET_KEY='pk_test_226b48b78ac2e984956959b9e4a889b91f0c8f13'
 LOGIN_URL = 'public_connection'
 MIDDLEWARE_CLASSES = (
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -61,8 +65,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-)
+# 'debug_toolbar.middleware.DebugToolbarMiddleware',
 
+)
+INTERNAL_IPS = ['127.0.0.1']
 ROOT_URLCONF = 'reservationsystem.urls'
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 TEMPLATES = [

@@ -1,7 +1,11 @@
 import os
 import uuid
+
+from django.core.serializers import serialize
 from django.utils.timezone import now as timezone_now
 from django.db import models
+from rest_framework.views import APIView
+
 from utils.models import CreationModificationDateMixin
 
 TYPE_CHOICES = (
@@ -9,6 +13,7 @@ TYPE_CHOICES = (
         ('A+', "A+"),
 
     )
+
 
 def upload_to(instance, filename):
     now = timezone_now()
@@ -37,12 +42,24 @@ class Seat(models.Model):
         return self.car_type + self.seat_description + ' - ' + 'Seat Number' + '  ' + str(self.seat_number)
 
 
+class SeatChart(models.Model):
+    """
+    This is a model for storing seat chart diagram configuration for different buses
+    """
+    car_type = models.CharField(max_length=100,verbose_name="Car Type")
+    seat_chart = models.CharField(max_length=100,verbose_name="Seat Chart")
+
+    def __str__(self):
+        return self.car_type
+
+
 class Bus(models.Model):
     bus_plate_number = models.CharField(max_length=60, verbose_name="Registration Number")
     colour = models.CharField(max_length=50, verbose_name="Bus Colour")
     engine_number = models.CharField(max_length=50, verbose_name="Engine Number")
     bus_image = models.ImageField(verbose_name="Bus Image", upload_to=upload_to)
     bus_seats = models.ManyToManyField(Seat, "Add Seats To Bus+")
+    seat_chart = models.ForeignKey(SeatChart, null=True)
 
     def __str__(self):
         return self.bus_plate_number
@@ -67,7 +84,7 @@ class Route(CreationModificationDateMixin):
 
 class Reservation(CreationModificationDateMixin):
     user = models.CharField(default='Admin', verbose_name='Reservation Owner', max_length=200)
-    reservation_number = models.UUIDField(default=uuid.uuid4, editable=False)
+    reservation_number = models.UUIDField(default=uuid.uuid1, editable=False)
     destination = models.ForeignKey(Route, verbose_name="Select A Route")
     seat_number = models.IntegerField(verbose_name="PICK A SEAT", null=True)
     car_class = models.CharField(verbose_name="CAR Class", max_length=200,blank=True)
