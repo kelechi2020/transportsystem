@@ -9,7 +9,7 @@ click==6.7
 decorator==4.1.2
 diff-match-patch==20121119
 djadmin==1.1.5
-Django==1.11.28
+Django==1.11.29
 django-crispy-forms==1.6.1
 django-import-export==0.5.1
 django-material==1.0.0
