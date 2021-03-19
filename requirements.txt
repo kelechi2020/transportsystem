@@ -14,7 +14,7 @@ django-crispy-forms==1.6.1
 django-import-export==0.5.1
 django-material==1.0.0
 django-widget-tweaks==1.4.1
-djangorestframework==3.6.3
+djangorestframework==3.11.2
 et-xmlfile==1.0.1
 geocoder==1.32.1
 gunicorn==19.7.1
