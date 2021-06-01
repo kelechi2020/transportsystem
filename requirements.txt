@@ -39,7 +39,7 @@ six==1.11.0
 tablib==0.12.1
 ua-parser==0.7.3
 unicodecsv==0.14.1
-urllib3==1.22
+urllib3==1.26.5
 user-agents==1.1.0
 uuid==1.30
 vine==1.1.4
